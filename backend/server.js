@@ -44,12 +44,19 @@ const PORTAS_FRONT = {
   DEV: Number(env.DEV_FRONT_PORT) || 3002
 };
 
+const BRANCHES = {
+  PROD: env.PROD_BRANCH || 'main',
+  TEST: env.TEST_BRANCH || 'test',
+  DEV: env.DEV_BRANCH || 'dev'
+};
+
 const PORT = Number(env.PORT) || PORTAS_BACK[AMBIENTE] || 4002;
 const FRONT_PORT = PORTAS_FRONT[AMBIENTE] || 3002;
+const BRANCH = env.GIT_BRANCH || BRANCHES[AMBIENTE] || 'dev';
 
 // Array em memória (sem banco de dados)
 let nomes = [
-  { id: 1, nome: 'João Silva', criadoEm: new Date().toISOString() },
+  { id: 1, nome: `João Silva (${AMBIENTE} - branch ${BRANCH})`, criadoEm: new Date().toISOString() },
   { id: 2, nome: 'Maria Oliveira', criadoEm: new Date().toISOString() },
   { id: 3, nome: 'Carlos Souza', criadoEm: new Date().toISOString() }
 ];
@@ -144,15 +151,16 @@ const server = http.createServer((req, res) => {
     return sendJson(res, 200, {
       status: 'online',
       ambiente: AMBIENTE,
+      branch: BRANCH,
       backPort: PORT,
       frontPort: FRONT_PORT,
-      mensagem: `API de Nomes rodando no ambiente ${AMBIENTE}`
+      mensagem: `API de Nomes rodando no ambiente ${AMBIENTE} (branch: ${BRANCH})`
     });
   }
 
   return sendJson(res, 404, { erro: 'Rota não encontrada.' });
 });
 
-server.listen(PORT, () => {
-  console.log(`[${AMBIENTE}] Servidor Backend rodando em http://localhost:${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`[${AMBIENTE} | branch: ${BRANCH}] Servidor Backend rodando em http://localhost:${PORT}`);
 });

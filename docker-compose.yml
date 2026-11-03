@@ -1,0 +1,78 @@
+services:
+  # ==========================================
+  # AMBIENTE PROD -> Puxa a branch "main"
+  # Front: 3000 | Back: 4000
+  # ==========================================
+  backend-prod:
+    build: ./backend
+    container_name: nomes-backend-prod
+    env_file: .env
+    environment:
+      - AMBIENTE=PROD
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+
+  frontend-prod:
+    build: ./frontend
+    container_name: nomes-frontend-prod
+    env_file: .env
+    environment:
+      - AMBIENTE=PROD
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend-prod
+    restart: unless-stopped
+
+  # ==========================================
+  # AMBIENTE TEST -> Puxa a branch "test"
+  # Front: 3001 | Back: 4001
+  # ==========================================
+  backend-test:
+    build: ./backend
+    container_name: nomes-backend-test
+    env_file: .env
+    environment:
+      - AMBIENTE=TEST
+    ports:
+      - "4001:4001"
+    restart: unless-stopped
+
+  frontend-test:
+    build: ./frontend
+    container_name: nomes-frontend-test
+    env_file: .env
+    environment:
+      - AMBIENTE=TEST
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend-test
+    restart: unless-stopped
+
+  # ==========================================
+  # AMBIENTE DEV -> Puxa a branch "dev"
+  # Front: 3002 | Back: 4002
+  # ==========================================
+  backend-dev:
+    build: ./backend
+    container_name: nomes-backend-dev
+    env_file: .env
+    environment:
+      - AMBIENTE=DEV
+    ports:
+      - "4002:4002"
+    restart: unless-stopped
+
+  frontend-dev:
+    build: ./frontend
+    container_name: nomes-frontend-dev
+    env_file: .env
+    environment:
+      - AMBIENTE=DEV
+    ports:
+      - "3002:3002"
+    depends_on:
+      - backend-dev
+    restart: unless-stopped

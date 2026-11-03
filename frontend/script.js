@@ -6,12 +6,12 @@ function resolverConfigAmbiente() {
 
   const portaAtual = Number(window.location.port);
   if (portaAtual === 3000) {
-    return { ambiente: 'PROD', frontPort: 3000, backPort: 4000, apiUrl: 'http://localhost:4000/nomes' };
+    return { ambiente: 'PROD', branch: 'main', frontPort: 3000, backPort: 4000, apiUrl: 'http://localhost:4000/nomes' };
   }
   if (portaAtual === 3001) {
-    return { ambiente: 'TEST', frontPort: 3001, backPort: 4001, apiUrl: 'http://localhost:4001/nomes' };
+    return { ambiente: 'TEST', branch: 'test', frontPort: 3001, backPort: 4001, apiUrl: 'http://localhost:4001/nomes' };
   }
-  return { ambiente: 'DEV', frontPort: 3002, backPort: 4002, apiUrl: 'http://localhost:4002/nomes' };
+  return { ambiente: 'DEV', branch: 'dev', frontPort: 3002, backPort: 4002, apiUrl: 'http://localhost:4002/nomes' };
 }
 
 const CONFIG = resolverConfigAmbiente();
@@ -50,10 +50,10 @@ async function consultarNomes(termo = '') {
     const dados = await resposta.json();
     renderizarLista(dados);
 
-    apiStatus.textContent = `Ambiente: ${CONFIG.ambiente} | Front: ${CONFIG.frontPort} | Back: ${CONFIG.backPort} (Online)`;
+    apiStatus.textContent = `Ambiente: ${CONFIG.ambiente} (branch: ${CONFIG.branch || 'main'}) | Front: ${CONFIG.frontPort} | Back: ${CONFIG.backPort}`;
     apiStatus.className = 'status-badge online';
   } catch (erro) {
-    apiStatus.textContent = `Ambiente: ${CONFIG.ambiente} | API Offline (esperada na porta ${CONFIG.backPort})`;
+    apiStatus.textContent = `Ambiente: ${CONFIG.ambiente} (branch: ${CONFIG.branch || 'main'}) | API Offline (porta ${CONFIG.backPort})`;
     apiStatus.className = 'status-badge offline';
     listaNomes.innerHTML = `<li class="vazio">Não foi possível conectar ao backend em http://localhost:${CONFIG.backPort}</li>`;
     contador.textContent = '0';

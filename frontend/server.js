@@ -44,11 +44,19 @@ function obterConfig() {
     DEV: Number(env.DEV_FRONT_PORT) || 3002
   };
 
+  const branches = {
+    PROD: env.PROD_BRANCH || 'main',
+    TEST: env.TEST_BRANCH || 'test',
+    DEV: env.DEV_BRANCH || 'dev'
+  };
+
   const frontPort = Number(env.PORT) || portasFront[ambiente] || 3002;
   const backPort = portasBack[ambiente] || 4002;
+  const branch = env.GIT_BRANCH || branches[ambiente] || 'dev';
 
   return {
     ambiente,
+    branch,
     frontPort,
     backPort,
     apiUrl: `http://localhost:${backPort}/nomes`
@@ -88,8 +96,8 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(configInicial.frontPort, () => {
+server.listen(configInicial.frontPort, '0.0.0.0', () => {
   console.log(
-    `[${configInicial.ambiente}] Frontend rodando em http://localhost:${configInicial.frontPort} (Conectando ao Back na porta ${configInicial.backPort})`
+    `[${configInicial.ambiente} | branch: ${configInicial.branch}] Frontend rodando em http://localhost:${configInicial.frontPort} (Back na porta ${configInicial.backPort})`
   );
 });
