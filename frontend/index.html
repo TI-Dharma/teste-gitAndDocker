@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro e Consulta de Nomes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Gerenciador de Nomes</h1>
+      <p class="subtitle">Teste de Front-end + Back-end (Array em Memória)</p>
+      <div id="api-status" class="status-badge">Conectando à API...</div>
+    </header>
+
+    <!-- Card de Cadastro -->
+    <section class="card">
+      <h2>Gravar Novo Nome</h2>
+      <form id="form-cadastro" class="row">
+        <input
+          type="text"
+          id="input-novo-nome"
+          placeholder="Digite um nome para gravar..."
+          required
+        />
+        <button type="submit" class="btn-primary">Gravar</button>
+      </form>
+      <p id="msg-feedback" class="feedback"></p>
+    </section>
+
+    <!-- Card de Consulta -->
+    <section class="card">
+      <h2>Consultar por Nome</h2>
+      <div class="row">
+        <input
+          type="text"
+          id="input-busca"
+          placeholder="Pesquisar nome..."
+        />
+        <button type="button" id="btn-buscar" class="btn-secondary">Buscar</button>
+        <button type="button" id="btn-limpar" class="btn-outline">Mostrar Todos</button>
+      </div>
+
+      <div class="lista-header">
+        <span>Resultados encontrados: <strong id="contador">0</strong></span>
+      </div>
+
+      <ul id="lista-nomes" class="lista"></ul>
+    </section>
+  </div>
+
+  <script src="/env-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

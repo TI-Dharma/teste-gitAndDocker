@@ -1,0 +1,10 @@
+{
+  "name": "frontend-nomes-web",
+  "version": "1.0.0",
+  "description": "Frontend simples para consultar e gravar nomes na API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
+
